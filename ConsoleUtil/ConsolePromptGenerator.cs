@@ -9,8 +9,9 @@ namespace SimonP.ConsoleUtil
 
 		public bool PromptBool(string prompt, bool defaultValue)
 		{
-			try
+			return PromptFunc(() =>
 			{
+				Console.CursorVisible = true;
 				while (true)
 				{
 					Console.Write(prompt);
@@ -34,23 +35,18 @@ namespace SimonP.ConsoleUtil
 
 					Console.WriteLine();
 				}
-			}
-			finally
-			{
-				Console.WriteLine();
-			}
+			});
 		}
 
 		public string PromptPassword(string prompt)
 		{
-			bool oldVisible = Console.CursorVisible;
-			Console.CursorVisible = true;
-			Console.Write(prompt);
-
-			var stringBuilder = new StringBuilder();
-
-			try
+			return PromptFunc(() =>
 			{
+				Console.CursorVisible = true;
+				Console.Write(prompt);
+
+				var stringBuilder = new StringBuilder();
+
 				while (true)
 				{
 					int currentLeft = Console.CursorLeft;
@@ -71,24 +67,18 @@ namespace SimonP.ConsoleUtil
 						stringBuilder.Append(keyInfo.KeyChar);
 					}
 				}
-			}
-			finally
-			{
-				Console.CursorVisible = oldVisible;
-				Console.WriteLine();
-			}
+			});
 		}
 
 		public T Prompt<T>(string prompt) => Prompt(prompt, default(T));
 
 		public T Prompt<T>(string prompt, T defaultValue)
 		{
-			bool oldVisible = Console.CursorVisible;
-			Console.CursorVisible = true;
-
-			try
+			return PromptFunc(() =>
 			{
-				while(true)
+				Console.CursorVisible = true;
+
+				while (true)
 				{
 					Console.Write(prompt);
 					string input = Console.ReadLine();
@@ -105,6 +95,16 @@ namespace SimonP.ConsoleUtil
 						Console.WriteLine(x.Message);
 					}
 				}
+			});
+		}
+
+		private T PromptFunc<T>(Func<T> a)
+		{
+			bool oldVisible = Console.CursorVisible;
+
+			try
+			{
+				return a();
 			}
 			finally
 			{

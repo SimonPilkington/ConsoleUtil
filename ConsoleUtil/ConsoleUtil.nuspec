@@ -10,7 +10,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
 	<summary>$description$</summary>
-    <releaseNotes>Initial.</releaseNotes>
+    <releaseNotes>Prompt code improvements.</releaseNotes>
     <copyright>Copyright 2018</copyright>
 	<repository type="git" url="https://github.com/SimonPilkington/ConsoleUtil.git"/>
 	<packageTypes>
